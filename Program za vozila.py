@@ -49,6 +49,8 @@ class VehiclePark:
     def print_park(self):
         for index, vehicle in enumerate(self.lst):
             print "{}) {}, {}. {} km driven so far. Last service date: {}".format(index+1, vehicle.brand, vehicle.model, vehicle.driven_km, vehicle.last_servis)
+        if not self.lst:
+            print "No vehicles in park yet."
 
 
 # Ask user what would he like to do with database
@@ -70,7 +72,7 @@ def main():
         print ""
 
         choice = raw_input("Which option would you like to choose? (1, 2, 3, 4, 5, 6) ")
-        print ""
+        print "your choice: {} {}".format(choice, type(choice))
 
         if choice == "1":
             vp.print_park()
@@ -79,12 +81,13 @@ def main():
         elif choice == "3":
             vp.print_park()
             index = raw_input('Which vehicle would you like to edit(write index): ')
-            vhc = vp.lst[int(index)]
+            vhc = vp.lst[int(index)-1]
             vhc.edit_driven_km()
         elif choice == "4":
             vp.print_park()
-            raw_input('Which vehicle would you like to delete (write index): ')
-            vp.edit_service_date[index]
+            index = raw_input('Which vehicle would you like to edit(write index): ')
+            vhc = vp.lst[int(index)-1]
+            vhc.edit_service_date()
         elif choice == "5":
             vp.del_vehicle()
         elif choice == "6":
@@ -92,7 +95,8 @@ def main():
             # TODO: save_to_disk(vehicles) !!!!
             break
         else:
-            print "I'm sorry, but I didn't understand your choice. Please type in just a letter, either a, b, c or d."
+            print "I'm sorry, but I didn't understand your choice. Please type in just a letter, either 1, 2, 3, " \
+                  "5 (in progress) or 6. "
 
     with open("vehicles.csv", "w+") as v_file:
         for vhc in vp.lst:
